@@ -1,24 +1,24 @@
 package machine
 
 import (
+	"golang-wasm/config"
 	"golang-wasm/constants"
 	"golang-wasm/helpers"
-	"golang-wasm/rotor"
 	"strings"
 )
 
 type Machine struct {
-	rotorConfig *rotor.RotorConfig
+	rotorConfig *config.RotorConfig
 }
 
-func NewMachine(rc *rotor.RotorConfig) *Machine {
+func NewMachine(rc *config.RotorConfig) *Machine {
 	if rc == nil {
-		rc = &rotor.DefaultConfig
+		rc = &config.DefaultConfig
 	}
 
-	cpy := &rotor.RotorConfig{}
+	cpy := &config.RotorConfig{}
 	cpy.Reflector = helpers.CopyStringMap(rc.Reflector)
-	cpy.Rotors = make([]rotor.Rotor, len(rc.Rotors))
+	cpy.Rotors = make([]config.Rotor, len(rc.Rotors))
 
 	for i := 0; i < len(cpy.Rotors); i++ {
 		cpy.Rotors[i].CrossConnections = helpers.CopyStringMap(rc.Rotors[i].CrossConnections)

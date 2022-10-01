@@ -1,4 +1,4 @@
-package rotor
+package config
 
 var DefaultConfig = RotorConfig{
 	Reflector: map[string]string{

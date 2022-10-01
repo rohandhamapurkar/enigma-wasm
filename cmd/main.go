@@ -5,8 +5,9 @@ import (
 	"encoding/json"
 	"golang-wasm/helpers"
 	"golang-wasm/machine"
-	"golang-wasm/rotor"
 	"syscall/js"
+
+	"golang-wasm/config"
 )
 
 func downloadDefaultConfig() js.Func {
@@ -14,7 +15,7 @@ func downloadDefaultConfig() js.Func {
 		b := new(bytes.Buffer)
 		enc := json.NewEncoder(b)
 		enc.SetEscapeHTML(false)
-		err := enc.Encode(rotor.DefaultConfig)
+		err := enc.Encode(config.DefaultConfig)
 		println("err", err)
 		return helpers.GetJSReadableStreamFromIOReader(b)
 	})

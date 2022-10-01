@@ -1,4 +1,4 @@
-package rotor
+package config
 
 type Rotor struct {
 	Sequence         []string
