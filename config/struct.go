@@ -6,7 +6,7 @@ type Rotor struct {
 	RotationsDone    int64
 }
 
-type RotorConfig struct {
+type EnigmaConfig struct {
 	Reflector map[string]string
 	Rotors    []Rotor
 }

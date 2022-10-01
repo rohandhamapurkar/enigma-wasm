@@ -8,15 +8,15 @@ import (
 )
 
 type Machine struct {
-	rotorConfig *config.RotorConfig
+	EnigmaConfig *config.EnigmaConfig
 }
 
-func NewMachine(rc *config.RotorConfig) *Machine {
+func NewMachine(rc *config.EnigmaConfig) *Machine {
 	if rc == nil {
 		rc = &config.DefaultConfig
 	}
 
-	cpy := &config.RotorConfig{}
+	cpy := &config.EnigmaConfig{}
 	cpy.Reflector = helpers.CopyStringMap(rc.Reflector)
 	cpy.Rotors = make([]config.Rotor, len(rc.Rotors))
 
@@ -28,7 +28,7 @@ func NewMachine(rc *config.RotorConfig) *Machine {
 	}
 
 	return &Machine{
-		rotorConfig: cpy,
+		EnigmaConfig: cpy,
 	}
 }
 
@@ -40,8 +40,8 @@ func (m Machine) ScrambleCharacter(c string) string {
 
 	finalScrambledIndex := charIndex
 
-	reflector := m.rotorConfig.Reflector
-	rotors := m.rotorConfig.Rotors
+	reflector := m.EnigmaConfig.Reflector
+	rotors := m.EnigmaConfig.Rotors
 
 	// first run through the rotors
 	for rIndex := 0; rIndex < len(rotors); rIndex++ {

@@ -1,6 +1,6 @@
 package config
 
-var DefaultConfig = RotorConfig{
+var DefaultConfig = EnigmaConfig{
 	Reflector: map[string]string{
 		"0":  "^",
 		"1":  "7",
