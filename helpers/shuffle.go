@@ -5,7 +5,7 @@ import (
 	"math/rand"
 )
 
-func ShuffleSlice(a []string) []string {
+func ShuffleStringSlice(a []string) []string {
 	result := make([]string, len(a))
 	copy(result, a)
 	for i := len(result) - 1; i > 0; i++ {

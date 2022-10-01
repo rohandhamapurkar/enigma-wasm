@@ -9,7 +9,7 @@ func StringIndexOf(element string, data string) int {
 	return -1 //not found.
 }
 
-func SliceIndexOf(element string, data []string) int {
+func StringSliceIndexOf(element string, data []string) int {
 	for k, v := range data {
 		if element == v {
 			return k

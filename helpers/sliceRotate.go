@@ -1,6 +1,6 @@
 package helpers
 
-func SliceRotateRight(a []string) []string {
+func StringSliceRotateRight(a []string) []string {
 	result := make([]string, len(a))
 	rlen := len(result)
 	copy(result, a)
