@@ -1,6 +1,6 @@
 package config
 
-var DefaultConfig = EnigmaConfig{
+var DefaultEnigmaConfig = EnigmaConfig{
 	Reflector: map[string]string{
 		"0":  "^",
 		"1":  "7",

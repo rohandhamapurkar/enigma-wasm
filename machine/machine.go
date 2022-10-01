@@ -13,7 +13,7 @@ type Machine struct {
 
 func NewMachine(rc *config.EnigmaConfig) *Machine {
 	if rc == nil {
-		rc = &config.DefaultConfig
+		rc = &config.DefaultEnigmaConfig
 	}
 
 	cpy := &config.EnigmaConfig{}
@@ -68,7 +68,7 @@ func (m Machine) ScrambleCharacter(c string) string {
 			rotors[rIndex].Sequence = helpers.StringSliceRotateRight(rotors[rIndex].Sequence)
 			rotors[rIndex].RotationsDone = rotors[rIndex].RotationsDone + 1
 		} else {
-			if rotors[rIndex-1].RotationsDone != 0 && rotors[rIndex-1].RotationsDone%int64(len(rotors[rIndex].Sequence)) == 0 {
+			if rotors[rIndex-1].RotationsDone != 0 && rotors[rIndex-1].RotationsDone%uint64(len(rotors[rIndex].Sequence)) == 0 {
 				rotors[rIndex].Sequence = helpers.StringSliceRotateRight(rotors[rIndex].Sequence)
 				rotors[rIndex].RotationsDone = rotors[rIndex].RotationsDone + 1
 			}

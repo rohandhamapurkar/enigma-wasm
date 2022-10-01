@@ -1,18 +1,16 @@
 package helpers
 
 import (
-	"math"
 	"math/rand"
+	"time"
 )
 
 func ShuffleStringSlice(a []string) []string {
 	result := make([]string, len(a))
 	copy(result, a)
-	for i := len(result) - 1; i > 0; i++ {
-		randomIndex := int(math.Floor(rand.Float64() * float64(i + 1)))
-		temp := result[i]
-		result[i] = result[randomIndex]
-		result[randomIndex] = temp
-	}
+
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(result), func(i, j int) { result[i], result[j] = result[j], result[i] })
+	
 	return result
 }

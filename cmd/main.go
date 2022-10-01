@@ -1,28 +1,23 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
+	"golang-wasm/config"
 	"golang-wasm/helpers"
 	"golang-wasm/machine"
 	"syscall/js"
-
-	"golang-wasm/config"
 )
 
-func downloadDefaultConfig() js.Func {
+func downloadDefaultEnigmaConfig() js.Func {
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		b := new(bytes.Buffer)
-		enc := json.NewEncoder(b)
-		enc.SetEscapeHTML(false)
-		err := enc.Encode(config.DefaultConfig)
-		println("err", err)
-		return helpers.GetJSReadableStreamFromIOReader(b)
+		conf, _ := config.GenerateRandomEnigmaConfig(3)
+		println(conf)
+		buf ,_ := helpers.ConvertToBytesBuffer(conf)
+		return helpers.GetJSReadableStreamFromIOReader(buf)
 	})
 }
 
 func registerCallbacks() {
-	js.Global().Set("downloadDefaultConfig", downloadDefaultConfig())
+	js.Global().Set("downloadDefaultEnigmaConfig", downloadDefaultEnigmaConfig())
 	js.Global().Set("ScrambleCharacter", js.FuncOf(func(this js.Value, args []js.Value) any {
 
 		m := machine.NewMachine(nil)
