@@ -1,30 +1,50 @@
 package main
 
 import (
+	"encoding/json"
 	"golang-wasm/config"
 	"golang-wasm/helpers"
 	"golang-wasm/machine"
 	"syscall/js"
 )
 
-func downloadDefaultEnigmaConfig() js.Func {
+func getDefaultEnigmaConfigStream() js.Func {
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		conf, _ := config.GenerateRandomEnigmaConfig(3)
-		println(conf)
-		buf ,_ := helpers.ConvertToBytesBuffer(conf)
+		conf := config.DefaultEnigmaConfig
+		buf, _ := helpers.ConvertToBytesBuffer(conf)
 		return helpers.GetJSReadableStreamFromIOReader(buf)
 	})
 }
 
-func registerCallbacks() {
-	js.Global().Set("downloadDefaultEnigmaConfig", downloadDefaultEnigmaConfig())
-	js.Global().Set("ScrambleCharacter", js.FuncOf(func(this js.Value, args []js.Value) any {
+func getCurrentConfigStream(m *machine.Machine) js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		buf, _ := m.EnigmaConfig.ToJSONBytesBuffer()
+		return helpers.GetJSReadableStreamFromIOReader(buf)
+	})
+}
 
-		m := machine.NewMachine(nil)
+func setEnigmaConfig(m *machine.Machine) js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		rc := &config.EnigmaConfig{}
+		err := json.Unmarshal([]byte(args[0].String()), rc)
+		if(err != nil) {
+			println(err)
+		}
+		m.SetConfig(rc)
+		return true
+	})
+}
+
+func registerCallbacks() {
+	m := machine.NewMachine(nil)
+	js.Global().Set("getDefaultEnigmaConfigStream", getDefaultEnigmaConfigStream())
+	js.Global().Set("getCurrentConfigStream", getCurrentConfigStream(m))
+	js.Global().Set("setEnigmaConfig", setEnigmaConfig(m))
+	js.Global().Set("ScrambleText", js.FuncOf(func(this js.Value, args []js.Value) any {
 
 		str := ""
-		for _, v := range "[Q Q;1P $= _; *\"-)1, |8OMA5>Y; %}[ALU)6" {
-			str += m.ScrambleCharacter(string(v))
+		for _, char := range args[0].String() {
+			str += m.ScrambleCharacter(string(char))
 		}
 
 		return str

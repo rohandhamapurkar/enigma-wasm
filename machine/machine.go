@@ -12,8 +12,14 @@ type Machine struct {
 }
 
 func NewMachine(rc *config.EnigmaConfig) *Machine {
+	m := &Machine{}
+	m.SetConfig(rc)
+	return m
+}
+
+func (m *Machine) SetConfig(rc *config.EnigmaConfig) {
 	if rc == nil {
-		rc = &config.DefaultEnigmaConfig
+		rc = config.DefaultEnigmaConfig
 	}
 
 	cpy := &config.EnigmaConfig{}
@@ -27,12 +33,10 @@ func NewMachine(rc *config.EnigmaConfig) *Machine {
 		cpy.Rotors[i].RotationsDone = rc.Rotors[i].RotationsDone
 	}
 
-	return &Machine{
-		EnigmaConfig: cpy,
-	}
+	m.EnigmaConfig = cpy
 }
 
-func (m Machine) ScrambleCharacter(c string) string {
+func (m *Machine) ScrambleCharacter(c string) string {
 	charIndex := helpers.StringIndexOf(strings.ToUpper(c), constants.Characters)
 	if charIndex == -1 {
 		return c
